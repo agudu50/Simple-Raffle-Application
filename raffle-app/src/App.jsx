@@ -7,6 +7,7 @@ import RaffleControls from "./components/RaffleControls";
 import WinnerHistory from "./components/WinnerHistory";
 import RaffleSettings from "./components/RaffleSettings";
 import PrizeManager from "./components/PrizeManager";
+import LandingPage from "./components/LandingPage";
 
 export default function App() {
   const {
@@ -31,6 +32,12 @@ export default function App() {
     clearPrizes,
   } = useRaffle();
 
+  const [showLanding, setShowLanding] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    const hasVisited = localStorage.getItem("raffle-visited");
+    return !hasVisited;
+  });
+
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window === 'undefined') return false;
     const saved = localStorage.getItem("raffle-dark-mode");
@@ -41,6 +48,11 @@ export default function App() {
   });
 
   const [showWinnerBanner, setShowWinnerBanner] = useState(false);
+
+  const handleEnterApp = () => {
+    setShowLanding(false);
+    localStorage.setItem("raffle-visited", "true");
+  };
 
   // Show winner banner when winners are drawn, auto-hide after 10 seconds
   useEffect(() => {
@@ -70,6 +82,11 @@ export default function App() {
   // Check if there's an active winner to show at top
   const hasActiveWinner = winners.length > 0 && !isDrawing && showWinnerBanner;
   const showTopBanner = hasActiveWinner || isDrawing;
+
+  // Show landing page for first-time visitors
+  if (showLanding) {
+    return <LandingPage onEnter={handleEnterApp} />;
+  }
 
   return (
     <div className="min-h-screen transition-colors duration-300">
