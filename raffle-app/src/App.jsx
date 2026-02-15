@@ -77,12 +77,12 @@ export default function App() {
         <div className="max-w-2xl mx-auto">
           {/* Drawing/Winner Display - Sticky at top */}
           {showTopBanner && (
-            <div className="sticky top-0 z-50 -mx-3 sm:-mx-4 px-3 sm:px-4 pb-3 sm:pb-4 bg-slate-100 dark:bg-slate-900">
+            <div className="sticky top-0 z-50 -mx-3 sm:-mx-4 px-3 sm:px-4 pb-2 sm:pb-3 pt-1 bg-slate-100 dark:bg-slate-900">
               <WinnerDisplay 
                 winners={winners} 
                 isDrawing={isDrawing} 
                 prizes={prizes} 
-                compact={false}
+                compact={true}
                 onClose={() => setShowWinnerBanner(false)}
               />
             </div>
