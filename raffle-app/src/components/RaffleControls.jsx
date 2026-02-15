@@ -7,11 +7,11 @@ export default function RaffleControls({
   participantCount,
 }) {
   return (
-    <div className="mt-8 space-y-4">
+    <div className="mt-6 sm:mt-8 space-y-3 sm:space-y-4">
       <button
         onClick={onDraw}
         disabled={disabled || isDrawing}
-        className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="w-full py-3.5 sm:py-4 bg-indigo-600 hover:bg-indigo-700 text-white text-base sm:text-lg font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
         {isDrawing ? (
           <span className="flex items-center justify-center gap-2">

@@ -3,11 +3,26 @@ import confetti from "canvas-confetti";
 
 const STORAGE_KEY = "raffle-app-data";
 
+// Common first names for random generation
+const RANDOM_NAMES = [
+  "Emma", "Liam", "Olivia", "Noah", "Ava", "Ethan", "Sophia", "Mason",
+  "Isabella", "William", "Mia", "James", "Charlotte", "Oliver", "Amelia",
+  "Benjamin", "Harper", "Elijah", "Evelyn", "Lucas", "Abigail", "Henry",
+  "Emily", "Alexander", "Elizabeth", "Michael", "Sofia", "Daniel", "Avery",
+  "Matthew", "Ella", "Aiden", "Scarlett", "Joseph", "Grace", "Samuel",
+  "Chloe", "David", "Victoria", "Jackson", "Riley", "Sebastian", "Aria",
+  "Jack", "Lily", "Owen", "Aurora", "Gabriel", "Zoey", "Carter", "Penelope",
+  "Jayden", "Layla", "John", "Nora", "Luke", "Camila", "Anthony", "Hannah",
+  "Isaac", "Lillian", "Dylan", "Addison", "Leo", "Eleanor", "Lincoln", "Natalie",
+  "Ryan", "Luna", "Nathan", "Savannah", "Aaron", "Brooklyn", "Thomas", "Leah"
+];
+
 export default function useRaffle() {
   const [participants, setParticipants] = useState([]);
   const [winners, setWinners] = useState([]);
   const [history, setHistory] = useState([]);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [prizes, setPrizes] = useState([]);
   const [settings, setSettings] = useState({
     winnerCount: 1,
     allowDuplicates: false,
@@ -23,6 +38,7 @@ export default function useRaffle() {
         const data = JSON.parse(saved);
         if (data.participants) setParticipants(data.participants);
         if (data.history) setHistory(data.history);
+        if (data.prizes) setPrizes(data.prizes);
         if (data.settings) setSettings((prev) => ({ ...prev, ...data.settings }));
       } catch (e) {
         console.error("Failed to load saved data:", e);
@@ -34,9 +50,9 @@ export default function useRaffle() {
   useEffect(() => {
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ participants, history, settings })
+      JSON.stringify({ participants, history, prizes, settings })
     );
-  }, [participants, history, settings]);
+  }, [participants, history, prizes, settings]);
 
   const triggerConfetti = useCallback(() => {
     const duration = 3000;
@@ -161,10 +177,14 @@ export default function useRaffle() {
         setIsDrawing(false);
         triggerConfetti();
 
-        // Add to history
+        // Add to history with prizes
+        const winnersWithPrizes = selectedWinners.map((winner, index) => ({
+          name: winner,
+          prize: prizes[index] || null,
+        }));
         const historyEntry = {
           id: Date.now(),
-          winners: selectedWinners,
+          winners: winnersWithPrizes,
           timestamp: new Date().toISOString(),
           participantCount: participants.length,
         };
@@ -195,13 +215,37 @@ export default function useRaffle() {
     setSettings((prev) => ({ ...prev, ...newSettings }));
   }, []);
 
-  const exportParticipants = useCallback(() => {
-    return participants.join("\n");
-  }, [participants]);
-
-  const importParticipants = useCallback((text) => {
-    return addMultipleParticipants(text);
+  // Random name generator
+  const generateRandomNames = useCallback((count = 5) => {
+    const shuffled = [...RANDOM_NAMES].sort(() => Math.random() - 0.5);
+    const selected = shuffled.slice(0, Math.min(count, RANDOM_NAMES.length));
+    return addMultipleParticipants(selected.join(","));
   }, [addMultipleParticipants]);
+
+  // Prize management
+  const addPrize = useCallback((prizeName) => {
+    const trimmed = prizeName.trim();
+    if (!trimmed) return { success: false, error: "Prize name cannot be empty" };
+    setPrizes((prev) => [...prev, trimmed]);
+    return { success: true };
+  }, []);
+
+  const removePrize = useCallback((index) => {
+    setPrizes((prev) => prev.filter((_, i) => i !== index));
+  }, []);
+
+  const clearPrizes = useCallback(() => {
+    setPrizes([]);
+  }, []);
+
+  const reorderPrizes = useCallback((fromIndex, toIndex) => {
+    setPrizes((prev) => {
+      const newPrizes = [...prev];
+      const [moved] = newPrizes.splice(fromIndex, 1);
+      newPrizes.splice(toIndex, 0, moved);
+      return newPrizes;
+    });
+  }, []);
 
   return {
     participants,
@@ -209,6 +253,7 @@ export default function useRaffle() {
     history,
     isDrawing,
     settings,
+    prizes,
     addParticipant,
     addMultipleParticipants,
     removeParticipant,
@@ -218,7 +263,10 @@ export default function useRaffle() {
     resetRaffle,
     clearHistory,
     updateSettings,
-    exportParticipants,
-    importParticipants,
+    generateRandomNames,
+    addPrize,
+    removePrize,
+    clearPrizes,
+    reorderPrizes,
   };
 }

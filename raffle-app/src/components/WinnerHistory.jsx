@@ -41,14 +41,23 @@ export default function WinnerHistory({ history, onClear }) {
                 </span>
               </div>
               <div className="flex flex-wrap gap-2">
-                {entry.winners.map((winner, idx) => (
-                  <span
-                    key={idx}
-                    className="px-3 py-1 bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 rounded-full text-sm font-medium"
-                  >
-                    🏆 {winner}
-                  </span>
-                ))}
+                {entry.winners.map((winner, idx) => {
+                  // Handle both old format (string) and new format (object with name and prize)
+                  const name = typeof winner === "string" ? winner : winner.name;
+                  const prize = typeof winner === "object" ? winner.prize : null;
+                  return (
+                    <div key={idx} className="flex flex-col items-start gap-0.5">
+                      <span className="px-3 py-1 bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 rounded-full text-sm font-medium">
+                        🏆 {name}
+                      </span>
+                      {prize && (
+                        <span className="ml-2 px-2 py-0.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 rounded text-xs">
+                          🎁 {prize}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ))}

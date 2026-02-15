@@ -6,6 +6,7 @@ import WinnerDisplay from "./components/WinnerDisplay";
 import RaffleControls from "./components/RaffleControls";
 import WinnerHistory from "./components/WinnerHistory";
 import RaffleSettings from "./components/RaffleSettings";
+import PrizeManager from "./components/PrizeManager";
 
 export default function App() {
   const {
@@ -14,6 +15,7 @@ export default function App() {
     history,
     isDrawing,
     settings,
+    prizes,
     addParticipant,
     addMultipleParticipants,
     removeParticipant,
@@ -23,8 +25,10 @@ export default function App() {
     resetRaffle,
     clearHistory,
     updateSettings,
-    exportParticipants,
-    importParticipants,
+    generateRandomNames,
+    addPrize,
+    removePrize,
+    clearPrizes,
   } = useRaffle();
 
   const [darkMode, setDarkMode] = useState(() => {
@@ -35,6 +39,19 @@ export default function App() {
     }
     return window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
+
+  const [showWinnerBanner, setShowWinnerBanner] = useState(false);
+
+  // Show winner banner when winners are drawn, auto-hide after 10 seconds
+  useEffect(() => {
+    if (winners.length > 0 && !isDrawing) {
+      setShowWinnerBanner(true);
+      const timer = setTimeout(() => {
+        setShowWinnerBanner(false);
+      }, 10000); // Auto-close after 10 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [winners, isDrawing]);
 
   // Apply dark mode class synchronously before paint
   useLayoutEffect(() => {
@@ -50,18 +67,35 @@ export default function App() {
     localStorage.setItem("raffle-dark-mode", JSON.stringify(darkMode));
   }, [darkMode]);
 
+  // Check if there's an active winner to show at top
+  const hasActiveWinner = winners.length > 0 && !isDrawing && showWinnerBanner;
+  const showTopBanner = hasActiveWinner || isDrawing;
+
   return (
     <div className="min-h-screen transition-colors duration-300">
-      <div className="min-h-screen bg-slate-100 dark:bg-slate-900 py-8 px-4">
+      <div className="min-h-screen bg-slate-100 dark:bg-slate-900 py-4 sm:py-8 px-3 sm:px-4">
         <div className="max-w-2xl mx-auto">
+          {/* Drawing/Winner Display - Sticky at top */}
+          {showTopBanner && (
+            <div className="sticky top-0 z-50 -mx-3 sm:-mx-4 px-3 sm:px-4 pb-3 sm:pb-4 bg-slate-100 dark:bg-slate-900">
+              <WinnerDisplay 
+                winners={winners} 
+                isDrawing={isDrawing} 
+                prizes={prizes} 
+                compact={false}
+                onClose={() => setShowWinnerBanner(false)}
+              />
+            </div>
+          )}
+
           {/* Header */}
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 mb-6 border border-slate-200 dark:border-slate-700">
-            <div className="flex items-center justify-between mb-8">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-4 sm:p-8 mb-4 sm:mb-6 border border-slate-200 dark:border-slate-700">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
               <div>
-                <h1 className="text-3xl font-bold text-slate-800 dark:text-white">
+                <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-white">
                   🎟️ Raffle Draw
                 </h1>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Pick your lucky winners!</p>
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Pick your lucky winners!</p>
               </div>
               <button
                 onClick={() => setDarkMode(!darkMode)}
@@ -77,9 +111,14 @@ export default function App() {
             <ParticipantForm
               onAdd={addParticipant}
               onBulkAdd={addMultipleParticipants}
-              onExport={exportParticipants}
-              onImport={importParticipants}
-              participantCount={participants.length}
+              onGenerateRandom={generateRandomNames}
+            />
+
+            <PrizeManager
+              prizes={prizes}
+              onAdd={addPrize}
+              onRemove={removePrize}
+              onClear={clearPrizes}
             />
 
             <ParticipantList
@@ -98,11 +137,10 @@ export default function App() {
               participantCount={participants.length}
             />
 
-            <WinnerDisplay winners={winners} isDrawing={isDrawing} />
           </div>
 
           {/* History Section */}
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 border border-slate-200 dark:border-slate-700">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-4 sm:p-6 border border-slate-200 dark:border-slate-700">
             <WinnerHistory history={history} onClear={clearHistory} />
 
             {history.length === 0 && (
