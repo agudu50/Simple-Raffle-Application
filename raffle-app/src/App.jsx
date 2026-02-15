@@ -114,13 +114,22 @@ export default function App() {
                 </h1>
                 <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Pick your lucky winners!</p>
               </div>
-              <button
-                onClick={() => setDarkMode(!darkMode)}
-                className="p-3 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
-                title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-              >
-                <span className="text-xl">{darkMode ? "☀️" : "🌙"}</span>
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowLanding(true)}
+                  className="p-3 rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 hover:from-indigo-100 hover:to-indigo-200 dark:hover:from-indigo-900/50 dark:hover:to-indigo-800/50 border-2 border-slate-200 dark:border-slate-600 hover:border-indigo-300 dark:hover:border-indigo-700 shadow-sm transition-all duration-200 transform hover:scale-105"
+                  title="Back to home"
+                >
+                  <span className="text-xl">🏠</span>
+                </button>
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  className="p-3 rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 hover:from-amber-100 hover:to-amber-200 dark:hover:from-amber-900/50 dark:hover:to-amber-800/50 border-2 border-slate-200 dark:border-slate-600 hover:border-amber-300 dark:hover:border-amber-700 shadow-sm transition-all duration-200 transform hover:scale-105"
+                  title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+                >
+                  <span className="text-xl">{darkMode ? "☀️" : "🌙"}</span>
+                </button>
+              </div>
             </div>
 
             <RaffleSettings settings={settings} onUpdate={updateSettings} />

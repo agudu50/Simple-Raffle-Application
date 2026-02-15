@@ -38,17 +38,17 @@ export default function ParticipantList({
             {participants.length}
           </span>
         </h3>
-        <div className="flex gap-1.5 sm:gap-2">
+        <div className="flex gap-2">
           <button
             onClick={onShuffle}
-            className="px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+            className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-lg hover:bg-amber-200 dark:hover:bg-amber-800/40 transition-all duration-200"
             title="Shuffle list"
           >
             🔀 <span className="hidden sm:inline">Shuffle</span>
           </button>
           <button
             onClick={onClear}
-            className="px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 rounded-lg hover:bg-red-200 dark:hover:bg-red-800/40 transition-colors"
+            className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-800/40 transition-all duration-200"
           >
             🗑️ <span className="hidden sm:inline">Clear</span>
           </button>
@@ -96,16 +96,16 @@ export default function ParticipantList({
       {hasMore && !showAll && (
         <button
           onClick={() => setShowAll(true)}
-          className="w-full mt-3 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors"
+          className="w-full mt-3 py-2.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl hover:bg-indigo-100 dark:hover:bg-indigo-900/40 border-2 border-indigo-100 dark:border-indigo-900/40 transition-all duration-200"
         >
-          Show {filteredParticipants.length - displayLimit} more
+          ⬇️ Show {filteredParticipants.length - displayLimit} more
         </button>
       )}
 
       {showAll && hasMore && (
         <button
           onClick={() => setShowAll(false)}
-          className="w-full mt-3 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors"
+          className="w-full mt-3 py-2.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl hover:bg-indigo-100 dark:hover:bg-indigo-900/40 border-2 border-indigo-100 dark:border-indigo-900/40 transition-all duration-200"
         >
           ⬆️ Show less
         </button>

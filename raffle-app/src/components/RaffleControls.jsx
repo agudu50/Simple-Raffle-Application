@@ -11,12 +11,12 @@ export default function RaffleControls({
       <button
         onClick={onDraw}
         disabled={disabled || isDrawing}
-        className="w-full py-3.5 sm:py-4 bg-indigo-600 hover:bg-indigo-700 text-white text-base sm:text-lg font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="w-full py-4 sm:py-5 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white text-lg sm:text-xl font-bold rounded-xl shadow-lg shadow-emerald-500/30 disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
       >
         {isDrawing ? (
-          <span className="flex items-center justify-center gap-2">
+          <span className="flex items-center justify-center gap-3">
             <svg
-              className="animate-spin h-5 w-5"
+              className="animate-spin h-6 w-6"
               viewBox="0 0 24 24"
               fill="none"
             >
@@ -37,21 +37,27 @@ export default function RaffleControls({
             Drawing...
           </span>
         ) : (
-          <>🎲 Draw {winnerCount > 1 ? `${winnerCount} Winners` : "Winner"}</>
+          <span className="flex items-center justify-center gap-2">
+            <span className="text-2xl">🎰</span>
+            Draw {winnerCount > 1 ? `${winnerCount} Winners` : "Winner"}
+          </span>
         )}
       </button>
 
       <button
         onClick={onReset}
-        className="w-full py-2.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-medium rounded-lg transition-colors"
+        className="w-full py-3 bg-slate-200 dark:bg-slate-700 hover:bg-red-100 dark:hover:bg-red-900/30 text-slate-600 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 font-semibold rounded-xl border-2 border-transparent hover:border-red-200 dark:hover:border-red-800/50 transition-all duration-200"
       >
         🔄 Reset All
       </button>
 
       {participantCount > 0 && (
-        <p className="text-center text-sm text-slate-500 dark:text-slate-400">
-          {participantCount} participant{participantCount !== 1 ? "s" : ""} in the pool
-        </p>
+        <div className="flex items-center justify-center gap-2 py-2">
+          <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+          <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+            {participantCount} participant{participantCount !== 1 ? "s" : ""} ready
+          </p>
+        </div>
       )}
     </div>
   );

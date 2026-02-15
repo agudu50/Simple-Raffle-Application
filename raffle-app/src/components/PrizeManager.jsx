@@ -13,42 +13,42 @@ export default function PrizeManager({ prizes, onAdd, onRemove, onClear }) {
   };
 
   return (
-    <div className="mt-6 border border-slate-200 dark:border-slate-600 rounded-xl overflow-hidden">
+    <div className="mt-6 border-2 border-amber-200 dark:border-amber-800/50 rounded-2xl overflow-hidden shadow-sm">
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+        className="w-full flex items-center justify-between px-5 py-4 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-all"
       >
-        <div className="flex items-center gap-2">
-          <span className="text-lg">🎁</span>
-          <span className="font-medium text-slate-700 dark:text-slate-200">
+        <div className="flex items-center gap-3">
+          <span className="text-xl">🎁</span>
+          <span className="font-semibold text-slate-700 dark:text-slate-200">
             Prize Management
           </span>
           {prizes.length > 0 && (
-            <span className="px-2 py-0.5 text-xs font-medium bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300 rounded-full">
+            <span className="px-2.5 py-1 text-xs font-bold bg-amber-500 text-white rounded-full shadow-sm">
               {prizes.length}
             </span>
           )}
         </div>
-        <span className={`text-slate-400 transition-transform ${isExpanded ? "rotate-180" : ""}`}>
+        <span className={`text-amber-500 dark:text-amber-400 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}>
           ▼
         </span>
       </button>
 
       {isExpanded && (
-        <div className="p-3 sm:p-4 space-y-3 sm:space-y-4 bg-white dark:bg-slate-800/50">
+        <div className="p-4 sm:p-5 space-y-4 bg-white dark:bg-slate-800/50">
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
             <input
               value={prizeName}
               onChange={(e) => setPrizeName(e.target.value)}
               placeholder="Prize name (e.g., Gift Card)"
-              className="flex-1 px-3 py-2.5 sm:py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 dark:text-white dark:placeholder-slate-400 text-sm transition-colors"
+              className="flex-1 px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 focus:outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 dark:text-white dark:placeholder-slate-400 text-sm transition-all"
             />
             <button
               type="submit"
               disabled={!prizeName.trim()}
-              className="px-4 py-2.5 sm:py-2 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-lg disabled:opacity-50 transition-colors text-sm whitespace-nowrap"
+              className="px-5 py-3 bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-white font-semibold rounded-xl shadow-md shadow-amber-500/20 disabled:opacity-50 disabled:shadow-none transition-all duration-200 text-sm whitespace-nowrap transform hover:scale-105 active:scale-95 disabled:transform-none"
             >
-              Add Prize
+              + Add Prize
             </button>
           </form>
 
@@ -76,15 +76,15 @@ export default function PrizeManager({ prizes, onAdd, onRemove, onClear }) {
                   </div>
                 ))}
               </div>
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 pt-2 border-t border-slate-200 dark:border-slate-600">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 pt-3 border-t-2 border-slate-100 dark:border-slate-700">
                 <p className="text-xs text-slate-500 dark:text-slate-400 text-center sm:text-left">
                   1st prize → 1st winner, etc.
                 </p>
                 <button
                   onClick={onClear}
-                  className="px-3 py-1.5 text-xs text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
+                  className="px-4 py-2 text-xs font-semibold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 rounded-lg transition-all duration-200"
                 >
-                  Clear All
+                  🗑️ Clear All
                 </button>
               </div>
             </>
