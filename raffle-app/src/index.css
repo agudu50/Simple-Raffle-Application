@@ -1,6 +1,6 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   html {
@@ -17,52 +17,44 @@
   .animate-bounce-slow {
     animation: bounce 2s infinite;
   }
+}
 
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
+/* Custom scrollbar - light mode */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
 
-  ::-webkit-scrollbar-track {
-    background-color: #f3f4f6;
-    border-radius: 0.375rem;
-  }
+::-webkit-scrollbar-track {
+  background-color: #f3f4f6;
+  border-radius: 0.375rem;
+}
 
-  ::-webkit-scrollbar-thumb {
-    background-color: #d1d5db;
-    border-radius: 0.375rem;
-  }
+::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 0.375rem;
+}
 
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #9ca3af;
-  }
+::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af;
+}
 
-  @media (prefers-color-scheme: dark) {
-    ::-webkit-scrollbar-track {
-      background-color: #1f2937;
-    }
+/* Custom scrollbar - dark mode (class-based) */
+.dark ::-webkit-scrollbar-track {
+  background-color: #1f2937;
+}
 
-    ::-webkit-scrollbar-thumb {
-      background-color: #4b5563;
-    }
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+}
 
-    ::-webkit-scrollbar-thumb:hover {
-      background-color: #6b7280;
-    }
-  }
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #6b7280;
+}
 
-  /* Focus styles */
-  *:focus-visible {
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    *:focus-visible {
-      outline: 2px solid #3b82f6;
-      outline-offset: 2px;
-    }
-  }
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
 }
 

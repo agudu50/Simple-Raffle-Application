@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import useRaffle from "./hooks/useRaffle";
 import ParticipantForm from "./components/ParticipantForm";
 import ParticipantList from "./components/ParticipantList";
@@ -28,12 +28,16 @@ export default function App() {
   } = useRaffle();
 
   const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window === 'undefined') return false;
     const saved = localStorage.getItem("raffle-dark-mode");
-    return saved ? JSON.parse(saved) : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (saved !== null) {
+      return JSON.parse(saved);
+    }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
 
-  useEffect(() => {
-    localStorage.setItem("raffle-dark-mode", JSON.stringify(darkMode));
+  // Apply dark mode class synchronously before paint
+  useLayoutEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
     } else {
@@ -41,8 +45,13 @@ export default function App() {
     }
   }, [darkMode]);
 
+  // Persist preference to localStorage
+  useEffect(() => {
+    localStorage.setItem("raffle-dark-mode", JSON.stringify(darkMode));
+  }, [darkMode]);
+
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${darkMode ? "dark" : ""}`}>
+    <div className="min-h-screen transition-colors duration-300">
       <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
         <div className="max-w-2xl mx-auto">
           {/* Header */}
