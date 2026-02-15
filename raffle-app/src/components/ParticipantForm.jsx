@@ -59,40 +59,42 @@ export default function ParticipantForm({ onAdd, onBulkAdd, onExport, onImport, 
   };
 
   return (
-    <div className="space-y-3">
-      <form onSubmit={handleSubmit} className="flex gap-2">
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Enter participant name"
-          className="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
-        />
+    <div className="space-y-4">
+      <form onSubmit={handleSubmit} className="flex gap-3">
+        <div className="flex-1 relative">
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter participant name"
+            className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-slate-600 bg-white/50 dark:bg-slate-700/50 backdrop-blur-sm focus:outline-none focus:border-violet-500 dark:focus:border-violet-400 focus:ring-4 focus:ring-violet-500/20 dark:text-white dark:placeholder-slate-400 transition-all duration-300"
+          />
+        </div>
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition-colors"
+          className="px-6 py-3 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg shadow-violet-500/30 hover:shadow-xl hover:shadow-violet-500/40 transform hover:scale-105 active:scale-95 transition-all duration-300"
         >
-          Add
+          ➕ Add
         </button>
       </form>
 
-      <div className="flex flex-wrap gap-2 text-sm">
+      <div className="flex flex-wrap gap-3">
         <button
           type="button"
           onClick={() => setShowBulk(!showBulk)}
-          className="text-blue-500 hover:text-blue-700 dark:text-blue-400"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/40 text-blue-700 dark:text-blue-300 font-medium rounded-lg hover:from-blue-200 hover:to-indigo-200 dark:hover:from-blue-800/40 dark:hover:to-indigo-800/40 transition-all duration-300"
         >
-          {showBulk ? "Hide" : "Bulk Add"}
+          📋 {showBulk ? "Hide Bulk" : "Bulk Add"}
         </button>
         <button
           type="button"
           onClick={handleExport}
           disabled={participantCount === 0}
-          className="text-green-500 hover:text-green-700 disabled:opacity-50 dark:text-green-400"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/40 dark:to-teal-900/40 text-emerald-700 dark:text-emerald-300 font-medium rounded-lg hover:from-emerald-200 hover:to-teal-200 dark:hover:from-emerald-800/40 dark:hover:to-teal-800/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
         >
-          Export List
+          📤 Export
         </button>
-        <label className="text-purple-500 hover:text-purple-700 cursor-pointer dark:text-purple-400">
-          Import List
+        <label className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-fuchsia-100 to-pink-100 dark:from-fuchsia-900/40 dark:to-pink-900/40 text-fuchsia-700 dark:text-fuchsia-300 font-medium rounded-lg hover:from-fuchsia-200 hover:to-pink-200 dark:hover:from-fuchsia-800/40 dark:hover:to-pink-800/40 cursor-pointer transition-all duration-300">
+          📥 Import
           <input
             type="file"
             accept=".txt,.csv"
@@ -103,19 +105,19 @@ export default function ParticipantForm({ onAdd, onBulkAdd, onExport, onImport, 
       </div>
 
       {showBulk && (
-        <div className="space-y-2">
+        <div className="space-y-3 p-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-700/50 dark:to-slate-800/50 rounded-xl border border-blue-200/50 dark:border-slate-600/50">
           <textarea
             value={bulkNames}
             onChange={(e) => setBulkNames(e.target.value)}
-            placeholder="Enter names separated by commas or new lines"
+            placeholder="Enter names separated by commas or new lines..."
             rows={4}
-            className="w-full border rounded px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+            className="w-full px-4 py-3 rounded-xl border-2 border-blue-200 dark:border-slate-600 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm resize-none focus:outline-none focus:border-violet-500 dark:focus:border-violet-400 focus:ring-4 focus:ring-violet-500/20 dark:text-white dark:placeholder-slate-400 transition-all duration-300"
           />
           <button
             type="button"
             onClick={handleBulkAdd}
             disabled={!bulkNames.trim()}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm disabled:opacity-50 transition-colors"
+            className="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 active:scale-95 transition-all duration-300"
           >
             Add All Names
           </button>
@@ -124,12 +126,13 @@ export default function ParticipantForm({ onAdd, onBulkAdd, onExport, onImport, 
 
       {message && (
         <div
-          className={`text-sm p-2 rounded ${
+          className={`flex items-center gap-2 p-4 rounded-xl font-medium ${
             message.type === "error"
-              ? "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200"
-              : "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200"
+              ? "bg-gradient-to-r from-red-100 to-rose-100 dark:from-red-900/40 dark:to-rose-900/40 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800"
+              : "bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/40 dark:to-teal-900/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800"
           }`}
         >
+          <span>{message.type === "error" ? "❌" : "✅"}</span>
           {message.text}
         </div>
       )}
