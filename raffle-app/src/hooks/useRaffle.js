@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import confetti from "canvas-confetti";
 
 const STORAGE_KEY = "raffle-app-data";
-const HISTORY_CACHE_DURATION =  3 * 60 * 1000; // 
+const HISTORY_CACHE_DURATION =  3 * 60 * 1000; 
 
 // Common first names for random generation
 const RANDOM_NAMES = [
