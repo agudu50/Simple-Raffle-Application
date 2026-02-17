@@ -1,7 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function RaffleSettings({ settings, onUpdate }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [winnerInput, setWinnerInput] = useState(String(settings.winnerCount));
+
+  // Sync local input with settings when settings change externally
+  useEffect(() => {
+    setWinnerInput(String(settings.winnerCount));
+  }, [settings.winnerCount]);
+
+  const handleWinnerCountChange = (e) => {
+    const val = e.target.value;
+    setWinnerInput(val); // Allow any value in the input field
+    
+    const num = parseInt(val, 10);
+    if (!isNaN(num) && num >= 1 && num <= 100) {
+      onUpdate({ winnerCount: num });
+    }
+  };
+
+  const handleWinnerCountBlur = () => {
+    // On blur, reset to valid value if empty or invalid
+    const num = parseInt(winnerInput, 10);
+    if (isNaN(num) || num < 1 || num > 100) {
+      setWinnerInput(String(settings.winnerCount));
+    }
+  };
 
   return (
     <div className="mb-4 sm:mb-6">
@@ -24,10 +48,9 @@ export default function RaffleSettings({ settings, onUpdate }) {
               type="number"
               min="1"
               max="100"
-              value={settings.winnerCount}
-              onChange={(e) =>
-                onUpdate({ winnerCount: Math.max(1, parseInt(e.target.value) || 1) })
-              }
+              value={winnerInput}
+              onChange={handleWinnerCountChange}
+              onBlur={handleWinnerCountBlur}
               className="w-full px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:text-white transition-colors text-sm sm:text-base"
             />
           </div>

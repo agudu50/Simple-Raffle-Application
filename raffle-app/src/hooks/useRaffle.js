@@ -204,7 +204,7 @@ export default function useRaffle() {
     };
 
     animate();
-  }, [participants, settings, isDrawing, triggerConfetti]);
+  }, [participants, settings, prizes, isDrawing, triggerConfetti]);
 
   const resetRaffle = useCallback(() => {
     setParticipants([]);
