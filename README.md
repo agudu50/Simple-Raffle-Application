@@ -6,6 +6,8 @@ A modern, feature-rich raffle application built with React and Vite. Perfect for
 ![Vite](https://img.shields.io/badge/Vite-7.3.1-purple)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.4.19-teal)
 
+🔗 **Live Demo:** [https://raffle-app-omega.vercel.app/](https://raffle-app-omega.vercel.app/)
+
 ## ✨ Features
 
 ### Core Raffle Features
