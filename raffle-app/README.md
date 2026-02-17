@@ -2,6 +2,8 @@
 
 A modern, feature-rich raffle application built with React and Vite. Perfect for giveaways, contests, and random selections with a beautiful UI and celebratory confetti animations.
 
+**Live Demo:** [raffle-app-sage.vercel.app](https://raffle-app-sage.vercel.app)
+
 ## Features
 
 - **Participant Management** - Add individual or multiple participants, shuffle, and manage the participant pool
