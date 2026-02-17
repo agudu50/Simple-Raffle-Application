@@ -34,7 +34,7 @@ export default function App() {
 
   const [showLanding, setShowLanding] = useState(() => {
     if (typeof window === 'undefined') return true;
-    const hasVisited = localStorage.getItem("raffle-visited");
+    const hasVisited = localStorage.getItem("raffle-visited-v2");
     return !hasVisited;
   });
 
@@ -51,7 +51,7 @@ export default function App() {
 
   const handleEnterApp = () => {
     setShowLanding(false);
-    localStorage.setItem("raffle-visited", "true");
+    localStorage.setItem("raffle-visited-v2", "true");
   };
 
   // Show winner banner when winners are drawn, auto-hide after 10 seconds
