@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import confetti from "canvas-confetti";
 
 const STORAGE_KEY = "raffle-app-data";
+const HISTORY_CACHE_DURATION =  3 * 60 * 1000; // 
 
 // Common first names for random generation
 const RANDOM_NAMES = [
@@ -21,6 +22,7 @@ export default function useRaffle() {
   const [participants, setParticipants] = useState([]);
   const [winners, setWinners] = useState([]);
   const [history, setHistory] = useState([]);
+  const [historyCachedAt, setHistoryCachedAt] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [prizes, setPrizes] = useState([]);
   const [settings, setSettings] = useState({
@@ -39,9 +41,20 @@ export default function useRaffle() {
         const data = JSON.parse(saved);
         if (data.participants) setParticipants(data.participants);
         if (data.winners) setWinners(data.winners);
-        if (data.history) setHistory(data.history);
         if (data.prizes) setPrizes(data.prizes);
         if (data.settings) setSettings((prev) => ({ ...prev, ...data.settings }));
+        
+        // Check if history cache is still valid (within 5 minutes)
+        if (data.history && data.historyCachedAt) {
+          const cacheAge = Date.now() - data.historyCachedAt;
+          if (cacheAge < HISTORY_CACHE_DURATION) {
+            setHistory(data.history);
+            setHistoryCachedAt(data.historyCachedAt);
+          } else {
+            // Cache expired, clear history
+            console.log("History cache expired after 5 minutes");
+          }
+        }
       } catch (e) {
         console.error("Failed to load saved data:", e);
       }
@@ -54,9 +67,16 @@ export default function useRaffle() {
     if (!isInitialized) return;
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ participants, winners, history, prizes, settings })
+      JSON.stringify({ 
+        participants, 
+        winners, 
+        history, 
+        historyCachedAt,
+        prizes, 
+        settings 
+      })
     );
-  }, [participants, winners, history, prizes, settings, isInitialized]);
+  }, [participants, winners, history, historyCachedAt, prizes, settings, isInitialized]);
 
   const triggerConfetti = useCallback(() => {
     const duration = 3000;
@@ -193,6 +213,7 @@ export default function useRaffle() {
           participantCount: participants.length,
         };
         setHistory((prev) => [historyEntry, ...prev].slice(0, 50)); // Keep last 50 draws
+        setHistoryCachedAt(Date.now()); // Update cache timestamp for 5-minute expiration
 
         // Remove winners from pool if setting enabled
         if (settings.removeWinnersFromPool) {
@@ -213,6 +234,7 @@ export default function useRaffle() {
 
   const clearHistory = useCallback(() => {
     setHistory([]);
+    setHistoryCachedAt(null);
   }, []);
 
   const updateSettings = useCallback((newSettings) => {
