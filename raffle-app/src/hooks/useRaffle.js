@@ -29,6 +29,7 @@ export default function useRaffle() {
     removeWinnersFromPool: false,
     animationDuration: 2000,
   });
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -37,6 +38,7 @@ export default function useRaffle() {
       try {
         const data = JSON.parse(saved);
         if (data.participants) setParticipants(data.participants);
+        if (data.winners) setWinners(data.winners);
         if (data.history) setHistory(data.history);
         if (data.prizes) setPrizes(data.prizes);
         if (data.settings) setSettings((prev) => ({ ...prev, ...data.settings }));
@@ -44,15 +46,17 @@ export default function useRaffle() {
         console.error("Failed to load saved data:", e);
       }
     }
+    setIsInitialized(true);
   }, []);
 
-  // Save to localStorage on changes
+  // Save to localStorage on changes (only after initial load)
   useEffect(() => {
+    if (!isInitialized) return;
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ participants, history, prizes, settings })
+      JSON.stringify({ participants, winners, history, prizes, settings })
     );
-  }, [participants, history, prizes, settings]);
+  }, [participants, winners, history, prizes, settings, isInitialized]);
 
   const triggerConfetti = useCallback(() => {
     const duration = 3000;

@@ -90,7 +90,7 @@ export default function LandingPage({ onEnter }) {
 
         {/* Bottom hint */}
         <p className={`mt-8 text-slate-500 dark:text-slate-500 text-sm transition-all duration-700 delay-1000 ${isVisible ? "opacity-100" : "opacity-0"}`}>
-          💾 Your data is saved locally
+          💾 All data are saved check in history
         </p>
       </div>
 
