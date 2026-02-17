@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function LandingPage({ onEnter }) {
+export default function LandingPage({ onEnter, darkMode, setDarkMode }) {
   const [isVisible, setIsVisible] = useState(false);
   const [ticketsAnimated, setTicketsAnimated] = useState(false);
 
@@ -21,6 +21,15 @@ export default function LandingPage({ onEnter }) {
 
   return (
     <div className="min-h-screen bg-slate-100 dark:bg-slate-900 flex flex-col items-center justify-center relative overflow-hidden">
+      {/* Dark/Light Mode Toggle */}
+      <button
+        onClick={() => setDarkMode(!darkMode)}
+        className="absolute top-4 right-4 z-20 p-3 rounded-xl bg-white dark:bg-slate-800 hover:bg-amber-100 dark:hover:bg-amber-900/50 border-2 border-slate-200 dark:border-slate-700 hover:border-amber-300 dark:hover:border-amber-700 shadow-lg transition-all duration-200 transform hover:scale-105"
+        title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+      >
+        <span className="text-xl">{darkMode ? "☀️" : "🌙"}</span>
+      </button>
+
       {/* Animated background particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {floatingTickets.map((ticket, index) => (

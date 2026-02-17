@@ -85,7 +85,7 @@ export default function App() {
 
   // Show landing page for first-time visitors
   if (showLanding) {
-    return <LandingPage onEnter={handleEnterApp} />;
+    return <LandingPage onEnter={handleEnterApp} darkMode={darkMode} setDarkMode={setDarkMode} />;
   }
 
   return (
