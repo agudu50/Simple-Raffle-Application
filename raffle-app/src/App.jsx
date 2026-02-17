@@ -127,7 +127,8 @@ export default function App() {
                   className="p-3 rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 hover:from-amber-100 hover:to-amber-200 dark:hover:from-amber-900/50 dark:hover:to-amber-800/50 border-2 border-slate-200 dark:border-slate-600 hover:border-amber-300 dark:hover:border-amber-700 shadow-sm transition-all duration-200 transform hover:scale-105"
                   title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
                 >
-                  <span className="text-xl">{darkMode ? "☀️" : "🌙"}</span>
+                  <span className="text-xl">
+                    {darkMode ? "☀️" : "🌙"}</span>
                 </button>
               </div>
             </div>
