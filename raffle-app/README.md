@@ -37,7 +37,7 @@ A modern, feature-rich raffle application built with React and Vite. Perfect for
 ### User Experience
 - **Sticky Winner Banner** - Winners displayed at top with auto-dismiss (10s) or manual close
 - **Mobile Responsive** - Fully optimized for mobile devices
-- **Local Storage** - All data persists in browser (participants, history, settings, prizes)
+- **Persistent Data** - All data survives page refresh and server restarts (participants, winners, history, settings, prizes)
 - **Clean Modern UI** - Sleek design with solid colors and smooth transitions
 
 ## 🚀 Getting Started
